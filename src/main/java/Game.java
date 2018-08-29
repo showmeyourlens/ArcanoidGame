@@ -3,6 +3,8 @@
  */
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 
 import java.awt.event.KeyEvent;
@@ -14,26 +16,44 @@ public class Game extends JPanel{ // doczytac o JP
     public Ball ball;
     private boolean isPaused = false;
     private boolean isRunning = false;
+
     public Game(Frame container){
-        container.addKeyListener(new KeyAdapter() {
-            @Override
-            public void keyPressed(KeyEvent e) {
-                if (!isRunning || isPaused){
-                    if (e.getKeyCode() == KeyEvent.VK_SPACE) {start(); System.out.println("space");}
-
-                }
-                else {
-                    if (e.getKeyCode() == KeyEvent.VK_RIGHT) { player.moveOnYAxis(10); System.out.println("huj");}
-                    if (e.getKeyCode() == KeyEvent.VK_LEFT) player.moveOnYAxis(-10);
-                    if (e.getKeyCode() == KeyEvent.VK_SPACE){ pause();}
-
-                    }
-
-
-            }
-        });
         player = new Player(this, (gamefield.width - Player.standardPlayerWidth)/2, (gamefield.height - Player.standardPlayerHeight)/2, Player.standardPlayerWidth, Player.standardPlayerHeight);
         ball = new Ball(this, gamefield.width/2, gamefield.height/2, Ball.STANDARD_BALL_RADIUS);
+//        container.addKeyListener(new KeyAdapter() {
+//            @Override
+//            public void keyPressed(KeyEvent e) {
+//                if (!isRunning || isPaused){
+//                    if (e.getKeyCode() == KeyEvent.VK_SPACE) {start(); System.out.println("space");}
+//
+//
+//                }
+//                else {
+//                    if (e.getKeyCode() == KeyEvent.VK_RIGHT) { player.moveOnYAxis(10); System.out.println("huj");}
+//                    if (e.getKeyCode() == KeyEvent.VK_LEFT) player.moveOnYAxis(-10);
+//                    if (e.getKeyCode() == KeyEvent.VK_SPACE){ pause();}
+//
+//
+//                    }
+//
+//
+//            }
+//        });
+
+        InputMap im = getInputMap(WHEN_IN_FOCUSED_WINDOW);
+        ActionMap am = getActionMap();
+
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0), "right");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0), "left");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_RIGHT, 0, true), "right-stop");
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, true), "left-stop");
+
+        am.put("right", player.new xDirectionAction(player.getMovementState(), 10));
+        am.put("left", player.new xDirectionAction(player.getMovementState(), -10));
+        am.put("left-stop", player.new xDirectionAction(player.getMovementState(), 0));
+        am.put("right-stop", player.new xDirectionAction(player.getMovementState(), 0));
+
+
     }
 
 

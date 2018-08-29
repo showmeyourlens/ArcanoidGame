@@ -32,11 +32,6 @@ public class Player {
         g.fillRect(hitbox.x, hitbox.y, hitbox.width,hitbox.height);
     }
 
-    public void moveOnYAxis(int speed){
-        hitbox.x += speed;
-
-    }
-
     public boolean collidesWith(Rectangle object){
         return hitbox.intersects(object);
     }
@@ -61,9 +56,9 @@ public class Player {
 
     }
 
-    public class xDirectionAction extends AbstractDirectionAction{
+    public class XDirectionAction extends AbstractDirectionAction{
 
-        public xDirectionAction (MovementState movementState, int value){
+        public XDirectionAction(MovementState movementState, int value){
             super (movementState, value);
         }
         @Override

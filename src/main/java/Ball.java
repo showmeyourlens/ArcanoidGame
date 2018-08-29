@@ -5,7 +5,7 @@ import java.awt.*;
  */
 public class Ball {
 
-    public static int STANDARD_BALL_RADIUS = 4;
+    public static int STANDARD_BALL_RADIUS = 10;
     private Point position = new Point(0,0);
     private int radius;
     private Game instance;
@@ -23,11 +23,11 @@ public class Ball {
     public void tick(){
         if (position.x - radius <= 0 && vector.width<0) vector.width = -vector.width;
         if (position.x + radius >= instance.getGameDimention().width && vector.width>0) vector.width = -vector.width;
-        if (position.y - radius <= 0 && vector.height<0) vector.height = -vector.height;
-        if (position.y + radius >= instance.getGameDimention().height && vector.height>0) instance.loseBall();
+        if (position.y  <= 0 && vector.height<0) vector.height = -vector.height;
+        if (position.y  >= instance.getGameDimention().height && vector.height>0) instance.loseBall();
 
         if (instance.getPlayer() != null){
-            if (instance.getPlayer().collidesWith(new Rectangle(position.x - radius, position.y - radius, radius*2, radius*2))) {
+            if (instance.getPlayer().collidesWith(new Rectangle(position.x - radius, position.y, radius*2, radius*2))) {
                 vector.height = -vector.height;
             }
         }

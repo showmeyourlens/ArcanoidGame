@@ -8,7 +8,7 @@ import java.awt.event.ActionListener;
  */
 public class Player {
     public static int standardPlayerWidth = 80;
-    public static int standardPlayerHeight = 10;
+    public static int standardPlayerHeight = 5;
     private Rectangle hitbox;
     private Game instance;
     private MovementState movementState;
@@ -36,15 +36,15 @@ public class Player {
         return hitbox.intersects(object);
     }
 
-    private abstract class AbstractDirectionAction extends AbstractAction{
+    public class XDirectionAction extends AbstractAction{
+
         private final MovementState movementState;
         private final int value;
 
-        public AbstractDirectionAction (MovementState movementState, int value){
+        public XDirectionAction(MovementState movementState, int value){
             this.movementState = movementState;
-            this.value=value;
+            this.value = value;
         }
-
 
         public MovementState getMovementState(){
             return movementState;
@@ -54,28 +54,16 @@ public class Player {
             return value;
         }
 
-    }
-
-    public class XDirectionAction extends AbstractDirectionAction{
-
-        public XDirectionAction(MovementState movementState, int value){
-            super (movementState, value);
-        }
         @Override
         public void actionPerformed(ActionEvent e){
             getMovementState().xDirection = getValue();
         }
     }
 
-    public class MovementState {
-        public int xDirection;
-    }
 
-    public MovementState getMovementState(){
-        return movementState;
-    }
+    public class MovementState { public int xDirection; }
 
-
+    public MovementState getMovementState(){ return movementState; }
 
     public void setY(int y){
         hitbox.y = y;
@@ -84,4 +72,6 @@ public class Player {
     public void setX(int x){
         hitbox.x = x;
     }
+
+    public int getHitboxX(){return hitbox.x;}
 }

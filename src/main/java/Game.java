@@ -8,16 +8,18 @@ import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 
 import java.awt.event.KeyEvent;
+import java.util.Random;
 
 public class Game extends JPanel{ // doczytac o JP
 
-    private Dimension gamefield = new Dimension(400,300);
+    private Dimension gamefield = new Dimension(800,600);
     public Player player;
     public Ball ball;
     private boolean isPaused = false;
     private boolean isRunning = false;
+    public int speed = 4; // TEMP
 
-    public Game(Frame container){
+    public Game(){
         player = new Player(this, (gamefield.width - Player.standardPlayerWidth)/2, (gamefield.height - Player.standardPlayerHeight)/2,
                 Player.standardPlayerWidth, Player.standardPlayerHeight);
         ball = new Ball(this, gamefield.width/2, gamefield.height/2, Ball.STANDARD_BALL_RADIUS);
@@ -66,9 +68,8 @@ public class Game extends JPanel{ // doczytac o JP
         if (!isRunning) gameThread.start();
     }
 
-    public void pause(){
-        isPaused = true;
-    }
+
+    public void pause(){ isPaused = true; }
 
     public void stop(){
         isRunning = false;
@@ -78,7 +79,7 @@ public class Game extends JPanel{ // doczytac o JP
     private Thread gameThread = new Thread(new Runnable() {
         public void run() {
             isRunning = true;
-            ball.setVector(2, 2);  // speed need to be variabe
+            ball.setVector(speed);  // speed need to be variabe
             while (isRunning) {
                 if (!isPaused) {
                 ball.tick();
@@ -86,7 +87,6 @@ public class Game extends JPanel{ // doczytac o JP
                 }
                     try {
                         Thread.sleep(10);
-                        System.out.println("werk");
                     } catch (InterruptedException e) {
                         e.printStackTrace();
                     }
@@ -99,13 +99,10 @@ public class Game extends JPanel{ // doczytac o JP
     public void loseBall(){
         pause();
         ball.setPosition(gamefield.width/2, gamefield.height/2);
+        ball.setVector(speed);
         player.setX(gamefield.width / 2);
         repaint();
 
-    }
-
-    public void setPlayer(Player player){
-        this.player = player;
     }
     public Player getPlayer(){
         return player;

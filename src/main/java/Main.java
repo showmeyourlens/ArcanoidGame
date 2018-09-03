@@ -14,7 +14,7 @@ public class Main {
     public static JFrame frame;
     public static Game game;
     public static int frameStartWidth = 600;
-    public static int frameStartHeight = 600;
+    public static int frameStartHeight = 400;
     public static void main(String[] args){
         frame = new JFrame("Arcanoid game");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
@@ -22,19 +22,12 @@ public class Main {
         frame.setLocationRelativeTo(null);
 
 
-        game = new Game(frame);
+        game = new Game();
         game.setSize(frame.getSize());
         frame.add(game);
 
 
         frame.setVisible(true);
-
-        /*frame.getContentPane().addComponentListener(new ComponentAdapter() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-                game.setSize(frame.getSize());
-            }
-        });*/
 
     }
 
